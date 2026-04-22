@@ -1,7 +1,10 @@
 
 import Link from "next/link";
 
-const tabs = [{tabName: "Features", route: "/Features"}, {tabName: "Why Requite?", route: "/WhyRequite"}, {tabName: "Pricing", route: "/Pricing"}, {tabName: "Sign In", route: "/SignIn"}];
+const tabs = [{tabName: "Features", route: "/features"}, 
+              {tabName: "Why Requite?", route: "/why-requite"}, 
+              {tabName: "Pricing", route: "/pricing"}, 
+              {tabName: "Sign In", route: "/sign-in"}];
 
 export default function Navbar(){
     return(
