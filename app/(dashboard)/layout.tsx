@@ -8,7 +8,7 @@ export default function DashLayout({
   }>) {
     return(
         <>
-          <div className="relative flex items-center justify-between px-6">
+          <div className="relative flex items-center justify-between px-6 py-2">
             <div className="flex items-center">
               <Link  href= "/" className="pl-3 pr-1 bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent font-bold text-[27px]">
                   Requite
