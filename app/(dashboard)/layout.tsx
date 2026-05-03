@@ -12,10 +12,10 @@ export default function DashLayout({
         <div className="flex flex-col min-h-screen">
           <div className="relative flex items-center justify-between px-6 py-2">
             <div className="flex items-center">
-              <Link  href= "/" className="pl-3 pr-1 bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent font-bold text-[2cqi]">
+              <Link  href= "/" className="pl-3 pr-1 bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent font-bold text-[clamp(1rem,2cqi,1.5rem)]">
                   Requite
               </Link>
-              <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text font-extralight text-transparent top-0 relative text-[1.2cqi]">Dashboard</span>
+              <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text font-extralight text-transparent top-0 relative text-[clamp(1rem,1cqi,1rem)]]">Dashboard</span>
             </div>
               <ViewDropdown />
           </div>
