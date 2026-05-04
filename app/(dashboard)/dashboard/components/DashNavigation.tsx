@@ -26,7 +26,7 @@ export default function DashboardTabs() {
           style={{transform: `translateX(${activeTab * 100}%)`}}/>
         <div className="grid grid-cols-3 relative z-10">
           {tabs.map((tab, index) => (
-            <Link key={tab.tabName} href={tab.route} className="flex justify-center items-center py-3 px-6 text-[2cqi] font-medium">
+            <Link key={tab.tabName} href={tab.route} className="flex justify-center items-center py-3 px-6 text-[clamp(1rem,1.5cqi,1.5rem)] font-medium">
               <span className={clsx("bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text text-transparent transition-opacity duration-300")}>
                 {tab.tabName}
               </span>
