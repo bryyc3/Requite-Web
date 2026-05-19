@@ -3,7 +3,9 @@ import { useState } from "react";
 import CustomizationContainer from "../CustomizationContainer";
 import TiersNav from "./TiersNav"
 
-export default function TiersContainer({tiers} : {tiers: any}){
+const tiers = [1, 2, 3]; //get tiers associated with a business and map through all
+
+export default function TiersContainer(){
     const [index, setIndex] = useState(0);
 
     return(

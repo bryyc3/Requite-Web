@@ -1,8 +1,8 @@
 import CustomizeOption from "./CustomizeOption";
 
-const customizeOptions = [{name: "Tier Name", hasInput: true, inputSize: "100px", info:"Make each tier of your reward program distinct with custom tier names"},
-                          {name: "Points Required",  hasInput: true, inputSize: "50px", info:"Amount of points customers need to attain in order to reach this specific status"},
-                          {name: "Exclusive Rewards",  hasInput: false, info:"Only allow users within this tier to redeem specific rewards"}]
+const customizeOptions = [{name: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names"},
+                          {name: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Amount of points customers need to attain in order to reach this specific status"},
+                          {name: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards"}]
 
 export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
     return(
@@ -24,7 +24,7 @@ export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
                 <CustomizeOption option={customizeOptions[0]} info={tierInfo} />
                 <CustomizeOption option={customizeOptions[1]} info={tierInfo}/>
             </div>
-            <CustomizeOption option={customizeOptions[2]} info={tierInfo}/>
+            <CustomizeOption option={customizeOptions[2]} info={tierInfo} onChange={(value) => (null) }/>
         </div>
     )
 }

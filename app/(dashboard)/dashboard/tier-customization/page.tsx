@@ -1,7 +1,6 @@
 import ToggleButton from "../components/ToggleButton";
 import TiersContainer from "./components/TiersController/TiersContainer";
 
-const tiersArr = [1, 2, 3]; //get tiers associated with a business and map through all
 
 export default function TierCustomization(){
     return(
@@ -13,7 +12,7 @@ export default function TierCustomization(){
                 </div>
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>
-            <TiersContainer tiers={tiersArr} />
+            <TiersContainer />
         </div>
     )
 }
