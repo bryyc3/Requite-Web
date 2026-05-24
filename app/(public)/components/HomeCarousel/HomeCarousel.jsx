@@ -18,8 +18,8 @@ export default function HomeCarousel() {
                                     data-[state=exit]:translate-x-10 
                                     transition-all duration-500 ease-in-out text-gray-700" 
                           data-index ={i}>
-                        <h1 className="font-bold text-[2.5cqi] leading-none">{slide.heading}</h1>
-                        <h2 className="font-extralight text-[1.7cqi]">{slide.subheading}</h2>
+                        <h1 className="font-bold text-[clamp(3rem,3cqi,3.5em) leading-none">{slide.heading}</h1>
+                        <h2 className="font-extralight text-[clamp(5rem,5cqi,5rem)">{slide.subheading}</h2>
                     </div>
                 ))}
                 <CarouselController total={slides.length} />

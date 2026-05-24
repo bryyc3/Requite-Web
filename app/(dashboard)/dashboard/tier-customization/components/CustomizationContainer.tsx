@@ -6,7 +6,7 @@ const customizeOptions = [{name: "Tier Name", hasInput: true, inputSize: "100px"
 
 export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
     return(
-        <div className="bg-white rounded-2xl pt-5 pl-12 pr-12 pb-12 flex flex-col gap-8">
+        <div className="shadow-[0_8px_8px_rgba(0,0,0,0.55)] bg-white rounded-2xl pt-5 pl-12 pr-12 pb-12 flex flex-col gap-8">
             <div className="ml-auto flex items-center">
                 <button className="cursor-pointer inline-flex items-center gap-2 px-2 py-1.5 rounded-xl 
                                 bg-gray-500 hover:bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400

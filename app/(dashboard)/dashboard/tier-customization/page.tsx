@@ -1,8 +1,14 @@
+"use client"
+import { useState } from "react";
+import CustomizationContainer from "./components/CustomizationContainer";
+import TiersNav from "./components/TiersNav"
 import ToggleButton from "../components/ToggleButton";
-import TiersContainer from "./components/TiersController/TiersContainer";
 
+const tiers = [1, 2, 3]; //get tiers associated with a business and map through all
 
 export default function TierCustomization(){
+    const [index, setIndex] = useState(0);
+
     return(
         <div className="flex-1 flex items-center justify-center gap-20 p-[5cqi]">
             <div className="w-[30vw]">
@@ -12,7 +18,10 @@ export default function TierCustomization(){
                 </div>
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>
-            <TiersContainer />
+            <div>
+                <CustomizationContainer tierInfo={tiers[index]}/>
+                <TiersNav tiersCount={tiers.length} index={index} setIndex={setIndex}/>
+            </div>
         </div>
     )
 }
