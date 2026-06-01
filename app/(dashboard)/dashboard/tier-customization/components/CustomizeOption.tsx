@@ -11,7 +11,7 @@ type CustomizeOptionProps = {
   onChange?: (value: string) => void;
 };
 
-export default function CustomizeOption({option, info, onChange,}: CustomizeOptionProps){
+export default function CustomizeOption({option, info, onChange}: CustomizeOptionProps){
     return(
             <div>
               <div className="flex items-center space-x-2 pb-2">

@@ -25,7 +25,7 @@ export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
                     <CustomizeOption option={customizeOptions[0]} info={tierInfo} />
                     <CustomizeOption option={customizeOptions[1]} info={tierInfo}/>
                 </div>
-                <CustomizeOption option={customizeOptions[2]} info={tierInfo} onChange={(value) => (null) }/>
+                <CustomizeOption option={customizeOptions[2]} info={tierInfo} onChange={(value) => (null)}/>
             </div>
         </div>
     )
