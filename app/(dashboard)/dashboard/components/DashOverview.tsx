@@ -20,7 +20,7 @@ export default function DashOverview() {
             <div className="mt-[1cqi]">
             <div className="relative inline-flex p-[5px] rounded-full group">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" />
-                    <button className="cursor-pointer relative z-[2] px-8 py-1 text-black font-semibold rounded-full text-[clamp(.5rem,1.5cqi,1rem)]">
+                    <button className="cursor-pointer relative z-[2] px-8 py-1 text-white font-semibold rounded-full text-[clamp(.5rem,1.5cqi,1rem)]">
                         Send Free Reward
                     </button>
                 </div>

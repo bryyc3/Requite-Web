@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 
 const tabs = [{route: "/dashboard/tier-customization", tabName: "Tier Customization"},
