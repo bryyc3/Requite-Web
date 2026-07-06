@@ -23,7 +23,7 @@ export default function RewardList(){
                     </svg>
                 </button>
             </div>
-            <RewardModal reward={expandedReward} onClose={() => setExpandedReward(null)} />
+            <RewardModal reward={expandedReward} onClose={() => setExpandedReward(null)}  onChange={(value) => (null)} />
         </>
     )
 }
