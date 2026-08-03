@@ -4,7 +4,7 @@ import Link from "next/link";
 const tabs = [{tabName: "Features", route: "/features"}, 
               {tabName: "Why Requite?", route: "/why-requite"}, 
               {tabName: "Pricing", route: "/pricing"}, 
-              {tabName: "Sign In", route: "/sign-in"}];
+              {tabName: "Dashboard", route: "/dashboard"}];
 
 export default function Navbar(){
     return(
