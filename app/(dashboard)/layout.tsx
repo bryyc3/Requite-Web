@@ -23,7 +23,7 @@ export default async function DashLayout({
     });
 
     if(res.status === 401){
-      redirect("/login");
+      redirect("/authenticate");
     };
 
     return(
