@@ -4,7 +4,7 @@ import CustomizationContainer from "./components/CustomizationContainer";
 import TiersNav from "./components/TiersNav"
 import ToggleButton from "../components/ToggleButton";
 
-const tiers = [1, 2, 3]; //get tiers associated with a business and map through all
+const tiersArr = [{tierName: "1"}, {tierName: "1"}, {tierName: "1"}]//get tiers associated with a business and map through all
 
 export default function TierCustomization(){
     const [index, setIndex] = useState(0);
@@ -19,8 +19,8 @@ export default function TierCustomization(){
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>
             <div>
-                <CustomizationContainer tierInfo={tiers[index]}/>
-                <TiersNav tiersCount={tiers.length} index={index} setIndex={setIndex}/>
+                <CustomizationContainer tierInfo={tiersArr[index]}/>
+                <TiersNav tiers={tiersArr} index={index} setIndex={setIndex}/>
             </div>
         </div>
     )
