@@ -7,9 +7,9 @@ type AuthProviderButtonProps = {
 
 export default function AuthServiceButton({Icon, provider}: AuthProviderButtonProps){
     return(
-        <div className="flex bg-gray-200 p-1 items-center border border-gray-400 rounded-full mb-9">
+        <button className="flex bg-gray-100 pl-2 items-center border border-gray-400 rounded-full mb-9 w-100 cursor-pointer">
             <Icon />
-            <p className="w-full ml-8 bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent text-[25px]">Continue with {provider}</p>
-        </div>
+            <p className="w-full bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent text-[25px]">Continue with {provider}</p>
+        </button>
     )
 }
