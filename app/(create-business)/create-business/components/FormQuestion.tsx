@@ -5,13 +5,15 @@ type FormQuestionProps = {
     questionSubtitle: String,
     inputType: ComponentType<any>,
     index: number,
+    value: any,
+    id: string,
     next: () => void,
     back: () => void,
     change: (id: string, value: any) => void
 }
 
 
-export default function FormQuestion({questionTitle, questionSubtitle, inputType, index, next, back, change}: FormQuestionProps){
+export default function FormQuestion({questionTitle, questionSubtitle, inputType, index, next, back, change, value, id}: FormQuestionProps){
     const Input = inputType;
     return(
         <div className="relative">
@@ -32,7 +34,7 @@ export default function FormQuestion({questionTitle, questionSubtitle, inputType
                 )}
                 <h1 className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[40px]">{questionTitle}</h1>
                 <h2 className="font-extralight text-[clamp(.75rem,1.5cqi,2rem)]">{questionSubtitle}</h2>
-                <Input onChange = {change}/>
+                <Input onChange = {change} inputValue = {value} inputId = {id} />
                 {index === 2 ?
                     <button onClick={next} className="cursor-pointer pl-5 pr-5 pt-2 pb-2 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400
                     text-white text-sm shadow-md transition-all cursor-pointer mb-4">Finish</button> :
