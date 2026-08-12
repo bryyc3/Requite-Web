@@ -80,7 +80,7 @@ export default function AddPhotoInput({onChange, inputValue, inputId}: AddPhotoI
       <button
         type="button"
         onClick={() => fileInputRef.current?.click()}
-        className="h-32 w-32 overflow-hidden rounded-full border-2 border-gray-300 mt-5 mb-5"
+        className="h-32 w-32 overflow-hidden rounded-full border-2 border-gray-300 mt-5 mb-5 cursor-pointer"
       >
         {imageSrc ? (
           <img
