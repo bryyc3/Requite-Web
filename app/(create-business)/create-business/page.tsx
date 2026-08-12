@@ -4,7 +4,7 @@ import Link from "next/link";
 import FormQuestion from "./components/FormQuestion";
 import { useState } from "react";
 import BusinessNameInput from "./components/BusinessNameInput";
-import AddPhotoInput from "./components/AddPhotoInput";
+import AddPhotoInput from "./components/PhotoInput/AddPhotoInput";
 import LocationSelector from "./components/LocationSelector";
 
 type Question = {
@@ -24,7 +24,7 @@ const questions: Question[] = [
     {
         id: "businessName",
         title: "What is the name of your business?",
-        subtitle: "This will be displayed in app and how new customers discover you",
+        subtitle: "This will be how new customers discover you",
         input: BusinessNameInput
     },
 
@@ -67,7 +67,7 @@ export default function createBusiness(){
             <div className="bg-gradient-to-t from-orange-400 to-orange-600">
                 <div className="min-h-screen bg-white rounded-r-[10vw] md:rounded-r-[5vw] shadow-2xl transition-all duration-300 shadow-[18px_25px_20px_rgba(0,0,0,0.55)] flex justify-center items-center">
                     <div className="absolute top-8 right-8">
-                        <Link  href= "/" className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[50px]">Requite</Link>
+                        <Link  href= "/" className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,2vw+1rem,3rem)]">Requite</Link>
                     </div> 
                     <FormQuestion 
                         questionTitle = {questions[question].title} 
