@@ -32,8 +32,8 @@ export default function FormQuestion({questionTitle, questionSubtitle, inputType
                         </svg>
                   </button>
                 )}
-                <h1 className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,2.5vw+1rem,4rem)]">{questionTitle}</h1>
-                <h2 className="font-extralight text-[clamp(.75rem,1.7vw,2rem)]">{questionSubtitle}</h2>
+                <h1 className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,4vw,4rem)]">{questionTitle}</h1>
+                <h2 className="font-extralight text-[clamp(1rem,2vw,2rem)]">{questionSubtitle}</h2>
                 <Input onChange = {change} inputValue = {value} inputId = {id} />
                 {index === 2 ?
                     <button onClick={next} className="text-[clamp(.1rem,1.3vw,2rem)] cursor-pointer pl-5 pr-5 pt-2 pb-2 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400

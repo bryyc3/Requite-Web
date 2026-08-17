@@ -4,27 +4,12 @@ import DashOverview from "./dashboard/components/DashOverview";
 import DashNavigation from "./dashboard/components/DashNavigation"
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { cache } from "react";
-import { Cookie } from "next/font/google";
+import { apiRequest } from "../library/api/api";
 
-export default async function DashLayout({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) {
-    const cookieStore = await cookies();
-    const res = await fetch(`http://localhost:8000/dashboard`, {
-      
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-      cache: "no-store"
+export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+    const res = await apiRequest('dashboard');
 
-    });
-
-    if(res.status === 401){
-      redirect("/authenticate");
-    };
+    res.status == 401 && redirect('/authenticate');
 
     return(
         <div className="flex flex-col min-h-screen">

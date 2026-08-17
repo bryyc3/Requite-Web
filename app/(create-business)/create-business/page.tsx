@@ -59,7 +59,6 @@ export default function createBusiness(){
             ...prev,
             [id]: value,     
         }));
-        console.log(formData);
     }
 
     return(
@@ -67,7 +66,7 @@ export default function createBusiness(){
             <div className="bg-gradient-to-t from-orange-400 to-orange-600">
                 <div className="min-h-screen bg-white rounded-r-[10vw] md:rounded-r-[5vw] shadow-2xl transition-all duration-300 shadow-[18px_25px_20px_rgba(0,0,0,0.55)] flex justify-center items-center">
                     <div className="absolute top-8 right-8">
-                        <Link  href= "/" className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,2vw+1rem,3rem)]">Requite</Link>
+                        <Link  href= "/" className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,5vw,3rem)]">Requite</Link>
                     </div> 
                     <FormQuestion 
                         questionTitle = {questions[question].title} 
