@@ -44,7 +44,7 @@ const questions: Question[] = [
 
 ]
 
-export default function createBusiness(){
+export default function CreateBusiness(){
     const [question, setQuestion] = useState(0);
     const [formData, setFormData] = useState({
         businessName: "",

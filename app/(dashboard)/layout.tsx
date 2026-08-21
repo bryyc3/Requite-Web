@@ -1,15 +1,17 @@
 import Link from "next/link";
 import ViewDropdown from "./dashboard/components/ViewDropdown";
 import DashOverview from "./dashboard/components/DashOverview";
-import DashNavigation from "./dashboard/components/DashNavigation"
-import { cookies, headers } from "next/headers";
+import DashNavigation from "./dashboard/components/DashNavigation";
 import { redirect } from "next/navigation";
 import { apiRequest } from "../library/api/api";
 
 export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
     const res = await apiRequest('dashboard');
 
-    res.status == 401 && redirect('/authenticate');
+    console.log(res.status)
+
+    res.status == (401 || 404) && redirect('/authenticate');
+    res.status == 403 && redirect('/create-business');
 
     return(
         <div className="flex flex-col min-h-screen">

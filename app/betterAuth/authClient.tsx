@@ -2,5 +2,5 @@
 import { createAuthClient } from "better-auth/client";
 
 export const authClient = createAuthClient({
-      baseURL: process.env.NEXT_PUBLIC_API_URL,
+      baseURL: process.env.NEXT_PUBLIC_API_AUTH_URL,
 });

@@ -15,7 +15,8 @@ const providers = [
 export default function authenticate(){
     async function handleAuth(authProvider: string){
         const response = await authClient.signIn.social({
-            provider: authProvider
+            provider: authProvider,
+            callbackURL: 'http://localhost:3000/dashboard'
         })
     }
 
