@@ -1,4 +1,4 @@
-import InfoPopup from "./InfoPopup";
+import InfoPopup from "../../components/InfoPopup";
 
 type CustomizeOptionProps = {
   option: {
@@ -16,7 +16,9 @@ export default function CustomizeOption({option, info, onChange}: CustomizeOptio
             <div>
               <div className="flex items-center space-x-2 pb-2">
                 <h1 className="font-bold text-[clamp(.1rem,2cqi,1.5rem)]">{option.name}</h1>
-                <InfoPopup content={option.popupInfo}/>
+                <InfoPopup>
+                  {option.popupInfo}
+                </InfoPopup>
               </div>
               {option.hasInput ? (
                 <input
