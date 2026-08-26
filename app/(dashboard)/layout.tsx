@@ -6,11 +6,11 @@ import { redirect } from "next/navigation";
 import { apiRequest } from "../library/api/api";
 
 export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-    const res = await apiRequest('dashboard');
+    const res = await apiRequest('business/info');
 
-    console.log(res.status)
+    console.log("status", res.status);
 
-    res.status == (401 || 404) && redirect('/authenticate');
+    res.status == 401 && redirect('/authenticate');
     res.status == 403 && redirect('/create-business');
 
     return(

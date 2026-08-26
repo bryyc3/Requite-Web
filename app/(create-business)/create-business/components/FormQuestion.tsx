@@ -7,13 +7,15 @@ type FormQuestionProps = {
     index: number,
     value: any,
     id: string,
+    error: string,
     next: () => void,
     back: () => void,
     change: (id: string, value: any) => void
+    submit: () => void
 }
 
 
-export default function FormQuestion({questionTitle, questionSubtitle, inputType, index, next, back, change, value, id}: FormQuestionProps){
+export default function FormQuestion({questionTitle, questionSubtitle, inputType, index, next, back, change, submit, value, id, error}: FormQuestionProps){
     const Input = inputType;
     return(
         <div className="relative">
@@ -35,14 +37,9 @@ export default function FormQuestion({questionTitle, questionSubtitle, inputType
                 <h1 className="bg-gradient-to-b from-orange-600 to-orange-400 bg-clip-text text-transparent font-bold text-[clamp(1rem,4vw,4rem)]">{questionTitle}</h1>
                 <h2 className="font-extralight text-[clamp(1rem,2vw,2rem)]">{questionSubtitle}</h2>
                 <Input onChange = {change} inputValue = {value} inputId = {id} />
-                {index === 2 ?
-                    <button onClick={next} className="text-[clamp(.1rem,1.3vw,2rem)] cursor-pointer pl-5 pr-5 pt-2 pb-2 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400
-                    text-white text-sm shadow-md transition-all cursor-pointer mb-4">Finish</button> :
-                    <button onClick={next} className="text-[clamp(.1rem,1.3vw,2rem)] cursor-pointer pl-5 pr-5 pt-2 pb-2 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400
-                    text-white text-sm shadow-md transition-all cursor-pointer mb-4">Next</button>
-            
-                }
-                
+                <button onClick={index ===2 ? submit : next} className="text-[clamp(.1rem,1.3vw,2rem)] cursor-pointer pl-5 pr-5 pt-2 pb-2 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400
+                text-white text-sm shadow-md transition-all cursor-pointer mb-4">{index === 2 ? "Finish" : "Next"}</button>
+                {error &&(<p className="font-extralight text-[clamp(.55rem,1.3cqi,1.5rem)] text-red-500">{error}</p>)}
                 <p className="font-extralight text-[clamp(.55rem,1.3cqi,1.5rem)]">{`${index + 1} / 3`}</p>
             </div>
         </div>

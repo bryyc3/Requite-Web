@@ -6,6 +6,7 @@ import { useState } from "react";
 import BusinessNameInput from "./components/BusinessNameInput";
 import AddPhotoInput from "./components/PhotoInput/AddPhotoInput";
 import LocationSelector from "./components/LocationSelector";
+import { useRouter } from "next/navigation";
 
 type Question = {
   id: keyof FormData;
@@ -30,7 +31,7 @@ const questions: Question[] = [
 
     {
         id: "location",
-        title: "Where is your business located",
+        title: "Where is your business located?",
         subtitle: "Select \"Nationwide\" if your business is located in multiple regions",
         input: LocationSelector
     },
@@ -45,20 +46,56 @@ const questions: Question[] = [
 ]
 
 export default function CreateBusiness(){
+    const router = useRouter()
     const [question, setQuestion] = useState(0);
     const [formData, setFormData] = useState({
         businessName: "",
         location: "",
         photo: null
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const nextQuestion = () => {question < 2 && setQuestion(question+1)};
+    const answerValidated = () => {
+        const answer = formData[questions[question].id];
+
+        if(!answer || answer.trim() === ""){
+            setErrorMessage("Enter an Answer Before Proceeding")
+            return false 
+        }
+        setErrorMessage("")
+        return true
+    }
+    const nextQuestion = () => {(question < 2 && answerValidated()) && setQuestion(question+1)};
     const handleBack = () => {question > 0 && setQuestion(question-1)}
     const handleChange = (id: string, value: any) => {
         setFormData((prev) => ({
             ...prev,
             [id]: value,     
         }));
+    }
+    const submitForm = async () =>{
+        if(formData.photo === null){
+            setErrorMessage("Select a profile photo")
+            return
+        }
+        try{
+            const res = await fetch("/library/api/create-business", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: formData.businessName,
+                    location: formData.location,
+                }),
+            }); 
+            if(!res.ok){
+                setErrorMessage("there was an error uploading your information")
+            }
+        } catch (error){
+            console.log("Submit form error", error);
+        }
+        router.push('/dashboard')
     }
 
     return(
@@ -72,10 +109,13 @@ export default function CreateBusiness(){
                         questionTitle = {questions[question].title} 
                         questionSubtitle = {questions[question].subtitle} 
                         inputType = {questions[question].input} index ={question} 
-                        next={nextQuestion} back={handleBack} 
+                        next={nextQuestion} 
+                        back={handleBack} 
                         change={handleChange}
+                        submit={submitForm}
                         value = {formData[questions[question].id]}
                         id = {questions[question].id}
+                        error= {errorMessage}
                     />
                 </div>
             </div>
