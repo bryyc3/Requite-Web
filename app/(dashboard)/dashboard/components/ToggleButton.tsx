@@ -8,7 +8,7 @@ export default function ToggleButton({ initial = false }) {
   return (
     <button
       onClick={() => setEnabled(!enabled)}
-      className={`relative w-[40px] aspect-[2/1] rounded-full transition-all duration-300 ${
+      className={`cursor-pointer relative w-[40px] aspect-[2/1] rounded-full transition-all duration-300 ${
         enabled ? "bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" : "bg-gray-400"
       }`}
     >

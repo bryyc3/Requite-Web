@@ -4,15 +4,16 @@ import { useState } from "react";
 import { Reward } from "./interfaces/reward";
 import RewardModal from "./components/RewardModal";
 
-const rewards: Reward[] = [{rewardName: "Club Sandwich", cost: 900}, {rewardName: "Turkey Sandwich", cost: 600}, {rewardName: "Chicken Sandwich", cost: 900}]
-
 export default function RewardList(){
-
+    const rewards: Reward[] = []
     const [expandedReward, setExpandedReward] = useState<Reward | null>(null);
 
     return(
         <>
-            <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Click on each reward to view/customize its properties</h1>
+            {rewards.length > 0 ? 
+                <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Click on each reward to view/customize its properties</h1>:
+                <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Click add button and create a reward</h1>
+            }
             <div className="flex m-auto gap-15">
                 {rewards.map((reward, index) => (
                     <RewardCard key= {index} reward={reward} onClick={() => setExpandedReward(reward)}/>

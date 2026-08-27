@@ -33,7 +33,11 @@ export default function DashOverview() {
                 </div>
             </div>
             <div className="text-center">
-                <div className="flex gap-3 items-center pb-2">
+                <div className="flex gap-3 items-center justify-center pb-2">
+                    <div className="relative flex h-6 w-6 items-center justify-center translate-y-[1px]">
+                        <div className="absolute h-4 w-4 rounded-full bg-red-500 opacity-75 animate-slow-ping" />
+                        <div className="h-3 w-3 rounded-full bg-red-400" />
+                    </div>
                     <h1 className="font-semibold text-[clamp(1rem,2cqi,1.5rem)]">Business Status:</h1>
                     <h2 className="font-light text-[clamp(1rem,2cqi,1.5rem)]">Inactive</h2>
                 </div>
