@@ -1,4 +1,4 @@
-export interface Reward{
+export type Reward={
     rewardName: string;
     cost: number;
 }

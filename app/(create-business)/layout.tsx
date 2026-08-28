@@ -3,8 +3,10 @@ import { apiRequest } from "@/app/library/api/api";
 import { redirect } from "next/navigation";
 
 export default async function CreateBusinessLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-    const res = await apiRequest('business');
+    const res = await apiRequest('business/info');
+    
     res.status == (401 || 404) && redirect('/authenticate');
+    res.status === 200 && redirect("/dashboard");
 
     return(
         <CreateBusiness />

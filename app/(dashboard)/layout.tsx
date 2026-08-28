@@ -4,14 +4,15 @@ import DashOverview from "./dashboard/components/DashOverview";
 import DashNavigation from "./dashboard/components/DashNavigation";
 import { redirect } from "next/navigation";
 import { apiRequest } from "../library/api/api";
+import { BusinessInformation } from "../types/businessInformation";
 
 export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-    // const res = await apiRequest('business/info');
+    const res = await apiRequest('business/info');
 
-    // console.log("status", res.status);
+    const data: BusinessInformation = await res.json();
 
-    // res.status == 401 && redirect('/authenticate');
-    // res.status == 403 && redirect('/create-business');
+    res.status == 401 && redirect('/authenticate');
+    res.status == 403 && redirect('/create-business');
 
     return(
         <div className="flex flex-col min-h-screen">
@@ -23,7 +24,7 @@ export default async function DashLayout({children,}: Readonly<{children: React.
               <ViewDropdown />
             </div>
           </div>
-          <DashOverview />
+          <DashOverview businessInfo={data}/>
           <DashNavigation />    
             {children}
         </div>

@@ -1,7 +1,7 @@
 "use client"
 import RewardCard from "./components/RewardCard";
 import { useState } from "react";
-import { Reward } from "./interfaces/reward";
+import { Reward } from "../../../types/reward";
 import RewardModal from "./components/RewardModal";
 
 export default function RewardList(){

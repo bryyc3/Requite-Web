@@ -1,7 +1,12 @@
 "use client"
-import InfoPopup from "./InfoPopup"
+import { BusinessInformation } from "@/app/types/businessInformation";
+import InfoPopup from "./InfoPopup";
 
-export default function DashOverview() {
+type DashOverviewProps={
+    businessInfo: BusinessInformation
+}
+
+export default function DashOverview({businessInfo}: DashOverviewProps) {
     return(
         <div className="flex justify-between w-full pl-15 pr-15 pb-5 items-center container-type-inline-size">
             <div className="flex gap-3 items-center justify-center">
@@ -13,12 +18,12 @@ export default function DashOverview() {
                 </div>
                 <div className="leading-tight">
                     <div className="relative inline-flex items-center">
-                        <h1 className="font-bold text-[clamp(1rem,2cqi,1.5rem)] pr-2">Business Name</h1>
+                        <h1 className="font-bold text-[clamp(1rem,2cqi,1.5rem)] pr-2">{businessInfo.businessName}</h1>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="currentColor" className="w-[clamp(20px,3cqi,32px)] h-[clamp(20px,3cqi,32px)]">
                             <path d="M3 17.25V21h3.75L19.81 7.94l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.99-1.66z"/>
                         </svg>
                     </div>
-                    <h2 className="font-light text-[clamp(.7rem,1.5cqi,1.3rem)]">Location</h2>
+                    <h2 className="font-light text-[clamp(.7rem,1.5cqi,1.3rem)]">{businessInfo.businessLocation}</h2>
                 </div>
             </div>
             <div className="text-center">

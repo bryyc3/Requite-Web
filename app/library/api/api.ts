@@ -11,7 +11,6 @@ export async function apiRequest(path: string, options: RequestInit = {}) {
         },
         cache: 'no-store'
     });
-    console.log(response)
     return response;
     
 }

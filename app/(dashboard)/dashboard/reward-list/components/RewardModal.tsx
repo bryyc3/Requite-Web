@@ -1,4 +1,4 @@
-import { Reward } from "../interfaces/reward";
+import { Reward } from "../../../../types/reward";
 
 
 type RewardModalProps = {
