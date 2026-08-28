@@ -7,12 +7,15 @@ import { apiRequest } from "../library/api/api";
 import { BusinessInformation } from "../types/businessInformation";
 
 export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
-    const res = await apiRequest('business/info');
+    // const res = await apiRequest('business/info');
 
-    const data: BusinessInformation = await res.json();
+    const data: BusinessInformation = {businessName: "Kingsware",
+    businessLocation: "AL",
+    rewardTracker: "Hi",
+    rewardCreated: true}
 
-    res.status == 401 && redirect('/authenticate');
-    res.status == 403 && redirect('/create-business');
+    // res.status == 401 && redirect('/authenticate');
+    // res.status == 403 && redirect('/create-business');
 
     return(
         <div className="flex flex-col min-h-screen">

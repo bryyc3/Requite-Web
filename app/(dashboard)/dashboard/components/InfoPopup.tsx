@@ -23,8 +23,8 @@ export default function InfoPopup({ children }: { children: React.ReactNode }) {
         <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" className="size-5">
           <defs>
             <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f97316" /> {/* orange-500 */}
-              <stop offset="100%" stopColor="#f59e0b" /> {/* amber-500 */}
+              <stop offset="0%" stopColor="#f88634" />
+              <stop offset="100%" stopColor="#f1a532" />
             </linearGradient>
           </defs>
           <path 
