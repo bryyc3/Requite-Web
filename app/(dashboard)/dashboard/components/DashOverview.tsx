@@ -1,5 +1,5 @@
 "use client"
-import { BusinessInformation } from "@/app/types/businessInformation";
+import { BusinessInformation } from "@/app/types/types";
 import InfoPopup from "./InfoPopup";
 
 type DashOverviewProps={
@@ -52,15 +52,32 @@ export default function DashOverview({businessInfo}: DashOverviewProps) {
                     </button>
                     <InfoPopup>
                         <div className="flex pb-3">
-                            <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 mr-2 shrink-0 vertical-align-middle">
-                                <span className="w-4 h-4 rounded-full bg-white" />
-                            </span>
+                            {
+                                (businessInfo.trackingSystems.pointTracker || businessInfo.trackingSystems.visitTracker || businessInfo.trackingSystems.referralTracker) ? 
+                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg> 
+                                </span>:
+                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                    <span className="w-4 h-4 rounded-full bg-white" />
+                                </span>
+                            }
+                            
                             <p>Select a tracking system</p>
                         </div>
                         <div className="flex">
-                            <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-tr from-amber-500 to-orange-600 mr-2 shrink-0 vertical-align-middle">
-                                <span className="w-4 h-4 rounded-full bg-white" />
-                            </span>
+                            {
+                                businessInfo.rewardCreated ? 
+                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg> 
+                                </span>:
+                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                    <span className="w-4 h-4 rounded-full bg-white" />
+                                </span>
+                            }
                             <p>Create a redeemable reward</p>
                         </div>
                     </InfoPopup>

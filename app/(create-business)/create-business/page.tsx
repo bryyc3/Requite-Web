@@ -7,6 +7,7 @@ import BusinessNameInput from "./components/BusinessNameInput";
 import AddPhotoInput from "./components/PhotoInput/AddPhotoInput";
 import LocationSelector from "./components/LocationSelector";
 import { useRouter } from "next/navigation";
+import { clientRequestHelper } from "@/app/library/api/clientRequestHelper";
 
 type Question = {
   id: keyof FormData;
@@ -79,7 +80,7 @@ export default function CreateBusiness(){
             return
         }
         try{
-            const res = await fetch("/library/api/create-business", {
+            const res = await clientRequestHelper("create-business",{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,8 +88,7 @@ export default function CreateBusiness(){
                 body: JSON.stringify({
                     name: formData.businessName,
                     location: formData.location,
-                }),
-            }); 
+                }),}); 
             if(!res.ok){
                 setErrorMessage("there was an error uploading your information")
             }

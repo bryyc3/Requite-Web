@@ -8,13 +8,18 @@ const tiersArr = [{tierName: "1"}, {tierName: "1"}, {tierName: "1"}]//get tiers 
 
 export default function TierCustomization(){
     const [index, setIndex] = useState(0);
+    const [tiersActivated, setTiersActivated] = useState(false);
+
+    async function toggleTiers(value: boolean, id: string): Promise<boolean> {
+        
+    }
 
     return(
         <div className="flex-1 flex items-center justify-center gap-20 p-[5cqi]">
             <div className="w-[30vw]">
                 <div className="flex items-center gap-5">
                     <h1 className="text-[clamp(1rem,2cqi,1.5rem)]">Tier Progression</h1>
-                    <ToggleButton />
+                    <ToggleButton onToggle={toggleTiers} initial={tiersActivated} identifier="tierProgression" />
                 </div>
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>

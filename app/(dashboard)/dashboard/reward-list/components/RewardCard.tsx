@@ -1,4 +1,4 @@
-import { Reward } from "../../../../types/reward";
+import { Reward } from "../../../../types/types";
 
 type RewardProps = {
     reward: Reward;

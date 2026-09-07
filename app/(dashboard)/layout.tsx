@@ -4,12 +4,12 @@ import DashOverview from "./dashboard/components/DashOverview";
 import DashNavigation from "./dashboard/components/DashNavigation";
 import { redirect } from "next/navigation";
 import { apiRequest } from "../library/api/api";
-import { BusinessInformation } from "../types/businessInformation";
+import { BusinessInformation } from "../types/types";
 
 export default async function DashLayout({children,}: Readonly<{children: React.ReactNode;}>) {
     const res = await apiRequest('business/info');
 
-    const data: BusinessInformation = await res.json();
+    const businessData: BusinessInformation = await res.json();
 
     res.status == 401 && redirect('/authenticate');
     res.status == 403 && redirect('/create-business');
@@ -24,7 +24,7 @@ export default async function DashLayout({children,}: Readonly<{children: React.
               <ViewDropdown />
             </div>
           </div>
-          <DashOverview businessInfo={data}/>
+          <DashOverview businessInfo={businessData}/>
           <DashNavigation />    
             {children}
         </div>
