@@ -47,36 +47,37 @@ export default function DashOverview({businessInfo}: DashOverviewProps) {
                     <h2 className="font-light text-[clamp(1rem,2cqi,1.5rem)]">Inactive</h2>
                 </div>
                 <div className="flex items-center justify-center">
-                    <button className="bg-gray-500 cursor-pointer relative z-[2] px-8 py-1 mr-2 text-white font-semibold text-[clamp(.5rem,1.5cqi,1rem)] rounded-full shadow-md">
+                    <button className={`${(businessInfo.rewardCreated && (businessInfo.trackingSystems.pointTracker || businessInfo.trackingSystems.referralTracker || businessInfo.trackingSystems.visitTracker)) ? "bg-gradient-to-r from-orange-400 to-orange-600" : "bg-gray-500"} ${(businessInfo.rewardCreated && businessInfo.rewardTracker) && "cursor-pointer"} relative z-[2] px-8 py-1 mr-2 text-white font-semibold text-[clamp(.5rem,1.5cqi,1rem)] rounded-full shadow-md`}>
                         Go active
                     </button>
                     <InfoPopup>
                         <div className="flex pb-3">
                             {
                                 (businessInfo.trackingSystems.pointTracker || businessInfo.trackingSystems.visitTracker || businessInfo.trackingSystems.referralTracker) ? 
-                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
-                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg> 
-                                </span>:
-                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 mr-2 shrink-0 align-middle">
+                                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M5 12l4 4L19 8" />
+                                    </svg>
+                                </span> :
+                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-400 to-orange-600 mr-2 shrink-0 vertical-align-middle">
                                     <span className="w-4 h-4 rounded-full bg-white" />
                                 </span>
+
                             }
-                            
                             <p>Select a tracking system</p>
                         </div>
                         <div className="flex">
                             {
-                                businessInfo.rewardCreated ? 
-                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
-                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg> 
-                                </span>:
-                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 mr-2 shrink-0 vertical-align-middle">
+                                businessInfo.rewardCreated ?
+                                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 mr-2 shrink-0 align-middle">
+                                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M5 12l4 4L19 8" />
+                                    </svg>
+                                </span> :
+                                <span className="inline-flex items-center justify-center p-[2px] rounded-full bg-gradient-to-r from-orange-400 to-orange-600 mr-2 shrink-0 vertical-align-middle">
                                     <span className="w-4 h-4 rounded-full bg-white" />
                                 </span>
+
                             }
                             <p>Create a redeemable reward</p>
                         </div>

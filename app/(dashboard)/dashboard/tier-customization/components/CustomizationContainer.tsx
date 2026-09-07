@@ -1,10 +1,16 @@
+import { Tier } from "@/app/types/tier";
 import CustomizeOption from "./CustomizeOption";
 
-const customizeOptions = [{name: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names"},
-                          {name: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Amount of points customers need to attain in order to reach this specific status"},
-                          {name: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards"}]
+type CustomizationContainerProps ={
+    tierInfo: Tier,
+    saveTier: (newTierInfo: Tier) => void
+}
 
-export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
+const customizeOptions = [{header: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names"},
+                          {header: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Amount of points customers need to attain in order to reach this specific status"},
+                          {header: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards"}]
+
+export default function CustomizationContainer({tierInfo, saveTier} : CustomizationContainerProps){
     return(
         <div className="rounded-xl bg-gradient-to-r from-orange-500 via-orange-500 to-orange-300 p-[2px] shadow-[0_8px_8px_rgba(0,0,0,0.55)] ">
             <div className="bg-white rounded-[10px] p-7 pt-5 pl-12 pr-12 pb-12 flex flex-col gap-8">
@@ -22,10 +28,10 @@ export default function CustomizationContainer({tierInfo} : {tierInfo:any}){
                     </button>
                 </div>
                 <div className="flex items-center w-full pb-10 gap-[clamp(0.5rem,10vw,50rem)]">
-                    <CustomizeOption option={customizeOptions[0]} info={tierInfo} />
-                    <CustomizeOption option={customizeOptions[1]} info={tierInfo}/>
+                    <CustomizeOption option={customizeOptions[0]} userInput={tierInfo.tierName} />
+                    <CustomizeOption option={customizeOptions[1]} userInput={tierInfo.pointsRequired.toString()}/>
                 </div>
-                <CustomizeOption option={customizeOptions[2]} info={tierInfo} onChange={(value) => (null)}/>
+                <CustomizeOption option={customizeOptions[2]} userInput={"none"} onChange={(value) => (null)}/>
             </div>
         </div>
     )

@@ -19,3 +19,9 @@ export type TrackingSystems={
     visit_tracker?: boolean;
     referral_tracker?: boolean;
 }
+
+export type Tier = {
+    tierName: string,
+    pointsRequired: number,
+    exclusiveRewards?: Reward[]
+}
