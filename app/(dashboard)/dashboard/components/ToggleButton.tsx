@@ -22,7 +22,11 @@ export default function ToggleButton({ onToggle, initial, identifier }: ToggleBu
         const success = await onToggle(!enabled, identifier);
 
         if(success){
+          console.log("successful toggle")
           setEnabled(!enabled)
+          setIsUpdating(false);
+        } else{
+          setEnabled(enabled);
           setIsUpdating(false);
         }
     } catch(error){

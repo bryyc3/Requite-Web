@@ -1,4 +1,4 @@
-import { Tier } from "@/app/types/tier";
+import { Tier } from "@/app/types/types";
 import CustomizeOption from "./CustomizeOption";
 
 type CustomizationContainerProps ={

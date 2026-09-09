@@ -6,11 +6,7 @@ export type Reward={
 export type BusinessInformation={
     businessName: string,
     businessLocation: string,
-    trackingSystems:{
-        pointTracker: boolean,
-        visitTracker: boolean,
-        referralTracker: boolean,
-    },
+    trackingSystems:TrackingSystems,
     rewardCreated: boolean
 }
 
@@ -24,4 +20,9 @@ export type Tier = {
     tierName: string,
     pointsRequired: number,
     exclusiveRewards?: Reward[]
+}
+
+export type TierCustomizationInfo ={
+    activated: boolean;
+    tiers: Tier[]
 }

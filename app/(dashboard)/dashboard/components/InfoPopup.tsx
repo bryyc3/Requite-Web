@@ -39,7 +39,7 @@ export default function InfoPopup({ children }: { children: React.ReactNode }) {
       {open && (
         <div className="absolute left-1/2 -translate-x-1/2 mt-2 z-50">
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white"/>
-          <div className="bg-white text-black text-sm px-3 py-2 mr-54 rounded-md shadow-[0_8px_8px_rgba(0,0,0,0.55)] w-60 text-center">
+          <div className="bg-white text-black text-sm px-3 py-2 rounded-md shadow-[0_8px_8px_rgba(0,0,0,0.55)] w-60 text-center">
             {children}
           </div>
         </div>

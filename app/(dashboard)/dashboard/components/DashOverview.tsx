@@ -1,12 +1,12 @@
 "use client"
 import { BusinessInformation } from "@/app/types/types";
 import InfoPopup from "./InfoPopup";
+import { useBusiness } from "../DashWrapper";
 
-type DashOverviewProps={
-    businessInfo: BusinessInformation
-}
 
-export default function DashOverview({businessInfo}: DashOverviewProps) {
+export default function DashOverview() {
+    const businessInfo = useBusiness().business;
+    
     return(
         <div className="flex justify-between w-full pl-15 pr-15 pb-5 items-center container-type-inline-size">
             <div className="flex gap-3 items-center justify-center">
@@ -47,13 +47,13 @@ export default function DashOverview({businessInfo}: DashOverviewProps) {
                     <h2 className="font-light text-[clamp(1rem,2cqi,1.5rem)]">Inactive</h2>
                 </div>
                 <div className="flex items-center justify-center">
-                    <button className={`${(businessInfo.rewardCreated && (businessInfo.trackingSystems.pointTracker || businessInfo.trackingSystems.referralTracker || businessInfo.trackingSystems.visitTracker)) ? "bg-gradient-to-r from-orange-400 to-orange-600" : "bg-gray-500"} ${(businessInfo.rewardCreated && businessInfo.rewardTracker) && "cursor-pointer"} relative z-[2] px-8 py-1 mr-2 text-white font-semibold text-[clamp(.5rem,1.5cqi,1rem)] rounded-full shadow-md`}>
+                    <button className={`${(businessInfo.rewardCreated && (businessInfo.trackingSystems.point_tracker || businessInfo.trackingSystems.referral_tracker  || businessInfo.trackingSystems.visit_tracker )) ? "bg-gradient-to-r from-orange-400 to-orange-600" : "bg-gray-500"} ${(businessInfo.rewardCreated && (businessInfo.trackingSystems.point_tracker || businessInfo.trackingSystems.referral_tracker  || businessInfo.trackingSystems.visit_tracker )) && "cursor-pointer"} relative z-[2] px-8 py-1 mr-2 text-white font-semibold text-[clamp(.5rem,1.5cqi,1rem)] rounded-full shadow-md`}>
                         Go active
                     </button>
                     <InfoPopup>
                         <div className="flex pb-3">
                             {
-                                (businessInfo.trackingSystems.pointTracker || businessInfo.trackingSystems.visitTracker || businessInfo.trackingSystems.referralTracker) ? 
+                                (businessInfo.trackingSystems.point_tracker || businessInfo.trackingSystems.referral_tracker  || businessInfo.trackingSystems.visit_tracker ) ? 
                                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gradient-to-r from-orange-400 to-orange-600 mr-2 shrink-0 align-middle">
                                     <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12l4 4L19 8" />
