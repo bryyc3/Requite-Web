@@ -7,7 +7,7 @@ type CustomizeOptionProps = {
     hasInput: boolean;
     inputSize?: string;
   };
-  userInput: string;
+  userInput: string | number;
   onChange?: (value: string) => void;
 };
 

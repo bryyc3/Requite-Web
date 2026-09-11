@@ -39,9 +39,25 @@ export default function TrackingSystem(){
     const businessSystems = business.trackingSystems;
 
     const [ppd, setPpd] = useState(1)
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState<string | null>();
 
     async function toggleSystem(activate: boolean, trackId: string): Promise<boolean>{
+        if(!activate){
+            const remainingSystems ={
+                pointTracker: 
+                    trackId !== "point_tracker" && businessSystems.point_tracker,
+                    
+                visitTracker: 
+                    trackId !== "visit_tracker" && businessSystems.visit_tracker,
+    
+                referralTracker: 
+                    trackId !== "referral_tracker" && businessSystems.referral_tracker,
+            }
+    
+            if(!Object.values(remainingSystems).some(Boolean)){
+                setErrorMessage("At least one tracking system must be enabled");
+            }
+        }
         try{
             const res = await clientRequestHelper("business/toggle-tracking-system", {
                 method: "POST",
@@ -52,8 +68,9 @@ export default function TrackingSystem(){
                     activated: activate
                 }),
             }); 
-            if(!res.ok){
-                setErrorMessage("there was an error uploading your information")
+            if(res.status !== 200){
+                const resMessage = await res.json()
+                setErrorMessage(resMessage.message)
                 return false
             }
 
@@ -71,6 +88,21 @@ export default function TrackingSystem(){
 
     return(
         <>
+            {
+                errorMessage &&
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl transition-all">
+                        <h1 className="text-xl font-semibold text-gray-950">Error:</h1>
+                        <p className="mt-3 text-sm leading-relaxed text-red-500">{errorMessage}</p>
+
+                        <div className="mt-6 ">
+                            <button onClick={(): void => { setErrorMessage(null); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
             <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Activate the tracking system associated with your business</h1>
             <div className="flex items-center justify-center gap-20 p-[5cqi]">
                 {trackingSystems.map((systemType, index) => (

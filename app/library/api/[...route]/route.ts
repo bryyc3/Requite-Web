@@ -9,9 +9,7 @@ async function handler(
     const apiPath = route.join("/");
 
     const body =
-        request.method === "GET" || request.method === "DELETE"
-            ? undefined
-            : await request.text();
+        request.method === "GET" ? undefined : await request.text();
 
     const response = await apiRequest(apiPath, {
         method: request.method,

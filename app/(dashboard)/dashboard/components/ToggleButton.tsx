@@ -1,7 +1,7 @@
 
 "use client"
 import { set } from "better-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ToggleButtonProps ={
   onToggle: (value: boolean, id: string) => Promise<boolean>;
@@ -12,6 +12,10 @@ type ToggleButtonProps ={
 export default function ToggleButton({ onToggle, initial, identifier }: ToggleButtonProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [enabled, setEnabled] = useState(initial);
+
+  useEffect(() =>{
+    setEnabled(initial);
+  },[initial])
 
   async function handleToggle(){
     if(isUpdating) return;

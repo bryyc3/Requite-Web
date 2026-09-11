@@ -1,19 +1,54 @@
+import { number } from "better-auth";
 import { Reward } from "../../../../types/types";
+import { useState } from "react";
 
 
 type RewardModalProps = {
-    reward: Reward | null;
-    onChange?: (value: string) => void;
-    onClose: () => void;
+    reward: Reward;
+    onFormChange?: <K extends keyof Reward>(id: K, value: Reward[K]) => void;
+    onFormClose: () => void;
+    mode: "create" | "edit";
+    rewardCreation: () => void;
+    rewardUpdate: () => void;
+    rewardDelete: () => void;
 };
 
-export default function RewardModal({reward, onClose, onChange}: RewardModalProps){
-    if (!reward) return null;
+export default function RewardModal({reward, onFormClose, onFormChange, mode, rewardCreation, rewardUpdate, rewardDelete}: RewardModalProps){
+    const [warningMessage, setWarningMessage] = useState(false);
+
+    function confirmDelete(){
+        setWarningMessage(true)
+    }
+
     return(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray backdrop-blur-sm">
-            <form className="bg-white p-5 shadow-[0_8px_8px_rgba(0,0,0,0.55)] rounded-xl">
+            {
+                warningMessage &&
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl transition-all">
+                    <h1 className="text-xl font-semibold text-gray-950">
+                        Are you sure you want to delete {reward.name}?
+                    </h1>
+                    <p className="mt-3 text-sm leading-relaxed text-gray-600">
+                        Deleting a reward will delete all data associated with it
+                    </p>
+
+                    <div className="mt-6 flex flex-row-reverse gap-3">
+                            <button onClick={(): void => { rewardDelete(); setWarningMessage(false) }} className="cursor-pointer rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-red-700 active:bg-red-800 transition-colors">
+                                Delete
+                            </button>
+                            <button onClick={(): void => { setWarningMessage(false); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                                Cancel
+                            </button>
+                    </div>
+                    </div>
+                </div>
+
+            }
+            <div className="bg-white p-5 shadow-[0_8px_8px_rgba(0,0,0,0.55)] rounded-xl">
                 <div className="flex">
-                    <button onClick={onClose} className="ml-auto text-gray-400 hover:text-gray-600 transition-colors duration-200 focus:outline-none">
+                    <button onClick={onFormClose} className="ml-auto text-gray-400 hover:text-gray-600 transition-colors duration-200 focus:outline-none">
                         <span className="text-2xl font-semibold">&times;</span>
                     </button>
                 </div>
@@ -25,8 +60,17 @@ export default function RewardModal({reward, onClose, onChange}: RewardModalProp
                     <div className="text-center ml-15">
                         <div className="pb-5">
                             <h1 className="font-bold pb-2">Points Required</h1>
-                            <div className="flex items-center ">
-                                <input value={reward.cost} type="text" className="outline-1 outline-gray-400 rounded text-center w-[50px]" onChange={(e) => onChange?.(e.target.value)}/>
+                            <div className="flex items-center justify-center">
+                                <input value={reward?.cost} type="number" className="outline-1 outline-gray-400 rounded text-center w-[50px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                 onChange={(e) => {
+                                    const value = e.target.value;
+
+                                    if(value === ""){
+                                        onFormChange?.("cost", "");
+                                        return;
+                                    }
+                                    onFormChange?.("cost", e.target.valueAsNumber)
+                                }}/>
                                 <p className="ml-1">points</p>
                             </div>
                         </div>
@@ -35,7 +79,7 @@ export default function RewardModal({reward, onClose, onChange}: RewardModalProp
                             <button id="dropdownButton" className="inline-flex justify-between items-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <span id="selectedOption">Any Tier</span>
                                 <svg className="w-5 h-5 ml-2 -mr-1 text-gray-400" xmlns="http://w3.org" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                                 </svg>
                             </button>
                         </div>
@@ -44,18 +88,25 @@ export default function RewardModal({reward, onClose, onChange}: RewardModalProp
                 <div>
                     <div className="pb-5">
                         <h1 className="font-bold pb-2">Item Name</h1>
-                         <input value={reward.rewardName} type="text" className="outline-1 outline-gray-400 rounded w-full" onChange={(e) => onChange?.(e.target.value)}/>
+                         <input value={reward?.name} type="text" className="outline-1 outline-gray-400 rounded w-full p-1" onChange={(e) => onFormChange?.("name", e.target.value)}/>
                     </div>
                     <div>
                         <h1 className="font-bold pb-2">Item Description</h1>
-                         <textarea value={reward.rewardName} className="outline-1 outline-gray-400 rounded w-full" onChange={(e) => onChange?.(e.target.value)}/>
+                         <textarea value={reward?.description} className="outline-1 outline-gray-400 rounded w-full p-1" onChange={(e) => onFormChange?.("description", e.target.value)}/>
                     </div>
                 </div>
-                <div className="pt-8 flex justify-between">
-                    <button className="p-1 rounded text-red-400 outline-1 outline-red-400">Delete Item</button>
-                    <button className="p-1 rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white">Save Changes</button>
-                </div>
-            </form>
+                {
+                    mode === "create" ?
+                    <div className="pt-8 flex justify-center">
+                        <button onClick={rewardCreation} className="p-1 w-40 cursor-pointer rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white">Save</button>
+                    </div>:
+                    <div className="pt-8 flex justify-between">
+                        <button onClick={confirmDelete} className="p-1 cursor-pointer rounded text-red-400 outline-1 outline-red-400">Delete Item</button>
+                        <button onClick={rewardUpdate} className="p-1 cursor-pointer rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white">Save Changes</button>
+                    </div>
+
+                }
+            </div>
         </div>
     )
 }

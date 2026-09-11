@@ -28,8 +28,8 @@ export default function CustomizationContainer({tierInfo, saveTier} : Customizat
                     </button>
                 </div>
                 <div className="flex items-center w-full pb-10 gap-[clamp(0.5rem,10vw,50rem)]">
-                    <CustomizeOption option={customizeOptions[0]} userInput={tierInfo.tierName} />
-                    <CustomizeOption option={customizeOptions[1]} userInput={tierInfo.pointsRequired.toString()}/>
+                    <CustomizeOption option={customizeOptions[0]} userInput={tierInfo.name} />
+                    <CustomizeOption option={customizeOptions[1]} userInput={tierInfo.points}/>
                 </div>
                 <CustomizeOption option={customizeOptions[2]} userInput={"none"} onChange={(value) => (null)}/>
             </div>

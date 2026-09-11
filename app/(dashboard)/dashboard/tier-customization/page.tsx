@@ -10,7 +10,7 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
     const [index, setIndex] = useState(0);
     const [tierCustomization, setTierCustomization] = useState<TierCustomizationInfo>();
     const [warningMessage, setWarningMessage] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState<string| null>();
 
     useEffect(()=> {
         async function getTiers() {
@@ -35,11 +35,6 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
         return <div>Loading...</div>;
     }
 
-    const newTier: Tier ={
-        tierName: "",
-        pointsRequired: 0
-    }
-
     async function toggleTiers(activate: boolean, identifier: string): Promise<boolean>{
         try{
             if(!activate && !warningMessage){
@@ -55,14 +50,15 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                     activated: activate
                 }),
             }); 
-            if(!res.ok){
-                setErrorMessage("there was an error uploading your information")
+            if(res.status !== 200){
+                const resMessage = await res.json()
+                setErrorMessage(resMessage.message)
                 return false
             }
 
             const successMessage = await res.json();
 
-            window.location.reload();
+            setTierCustomization(successMessage.tierCustomization)
             
             return successMessage.success
         } catch (error){
@@ -81,8 +77,9 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                     
                 }),
             }); 
-            if(!res.ok){
-                setErrorMessage("there was an error uploading your information")
+            if(res.status !== 200){
+                const resMessage = await res.json()
+                setErrorMessage(resMessage.message)
                 return false
             }
 
@@ -96,8 +93,22 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
     }
 
     return(
-        
         <div className="flex-1 flex items-center justify-center gap-20 p-[5cqi]">
+            {
+                errorMessage &&
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl transition-all">
+                        <h1 className="text-xl font-semibold text-gray-950">Error:</h1>
+                        <p className="mt-3 text-sm leading-relaxed text-red-500">{errorMessage}</p>
+
+                        <div className="mt-6 ">
+                            <button onClick={(): void => { setErrorMessage(null); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
             {warningMessage &&
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
 
@@ -110,10 +121,10 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                     </p>
 
                     <div className="mt-6 flex flex-row-reverse gap-3">
-                            <button onClick={(): void => { toggleTiers(false, "tierProgression"); setWarningMessage(false) }} className="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-red-700 active:bg-red-800 transition-colors">
+                            <button onClick={(): void => { toggleTiers(false, "tierProgression"); setWarningMessage(false) }} className="cursor-pointer rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-red-700 active:bg-red-800 transition-colors">
                             Disable
                             </button>
-                            <button onClick={(): void => { setWarningMessage(false); }} className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                            <button onClick={(): void => { setWarningMessage(false); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
                             Cancel
                             </button>
                     </div>
@@ -133,7 +144,7 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                         <CustomizationContainer tierInfo={tierCustomization.tiers[index]} saveTier={updateTier}/> 
                         <div className="flex gap-4 items-center justify-center pt-4">
                             <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex}/>
-                            <button onClick={() =>{setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, newTier]}))}} className="cursor-pointer w-6 h-6 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white flex items-center justify-center shadow-lg transition-all" >
+                            <button onClick={() =>{setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, {name: "", points: 0}]}))}} className="cursor-pointer w-6 h-6 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white flex items-center justify-center shadow-lg transition-all" >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>

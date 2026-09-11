@@ -1,11 +1,14 @@
 export type Reward={
-    rewardName: string;
-    cost: number;
+    id?: string;
+    name: string;
+    description?: string;
+    tier?: string;
+    cost: number | "";
 }
 
 export type BusinessInformation={
-    businessName: string,
-    businessLocation: string,
+    name: string,
+    location: string,
     trackingSystems:TrackingSystems,
     rewardCreated: boolean
 }
@@ -17,8 +20,8 @@ export type TrackingSystems={
 }
 
 export type Tier = {
-    tierName: string,
-    pointsRequired: number,
+    name: string,
+    points: number,
     exclusiveRewards?: Reward[]
 }
 

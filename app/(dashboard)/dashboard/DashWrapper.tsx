@@ -10,6 +10,10 @@ type BusinessContextType = {
         id: string,
         activated: boolean
     ) => void;
+
+    updateRewardCreated: (
+        created: boolean
+    ) => void;
 };
 
 const BusinessContext = createContext<BusinessContextType | null>(null);
@@ -21,20 +25,28 @@ export function DashWrapper({
     business: BusinessInformation;
     children: React.ReactNode;
 }) {
-    const [business, setBusiness] =
-        useState<BusinessInformation>(initialBusiness);
+    const [business, setBusiness] = useState<BusinessInformation>(initialBusiness);
 
     function updateTrackingSystem(id: string, activated: boolean) {
-        setBusiness((current) => ({
-            ...current,
+        setBusiness({
+            ...business,
             trackingSystems: {
-                ...current.trackingSystems,
+                ...business.trackingSystems,
                 [id]: activated,
             },
-        }));
+        });
     }
+
+    function updateRewardCreated(created: boolean){
+        setBusiness({
+            ...business,
+            rewardCreated: created
+        })
+
+    };
+
     return(
-        <BusinessContext.Provider value={{business, updateTrackingSystem}}>
+        <BusinessContext.Provider value={{business, updateTrackingSystem, updateRewardCreated}}>
             {children}
         </BusinessContext.Provider>
     );
