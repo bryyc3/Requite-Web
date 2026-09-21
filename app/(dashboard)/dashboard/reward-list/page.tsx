@@ -153,7 +153,6 @@ export default function RewardList(){
 
     async function deleteReward(){
         if(rewardsInfo?.rewards.length == 1){
-            setExpandedReward(null);
             setErrorMessage("You must have at least one reward created");
             return
         };
@@ -193,21 +192,6 @@ export default function RewardList(){
 
     return(
         <>
-            {
-                errorMessage &&
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl transition-all">
-                        <h1 className="text-xl font-semibold text-gray-950">Error:</h1>
-                        <p className="mt-3 text-sm leading-relaxed text-red-500">{errorMessage}</p>
-
-                        <div className="mt-6 ">
-                            <button onClick={(): void => { setErrorMessage(null); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
-                                Ok
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            }
             {rewardsInfo.rewards.length > 0 ? 
                 <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Click on each reward to view/customize its properties</h1>:
                 <h1 className="text-center mt-15 font-light text-[clamp(1.5rem,2cqi,1.75rem)]">Click add button and create a reward</h1>
@@ -234,6 +218,21 @@ export default function RewardList(){
                     rewardUpdate={updateReward}
                     rewardDelete={deleteReward}/>
 
+            }
+            {
+                errorMessage &&
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-2xl transition-all">
+                        <h1 className="text-xl font-semibold text-gray-950">Error:</h1>
+                        <p className="mt-3 text-sm leading-relaxed text-red-500">{errorMessage}</p>
+
+                        <div className="mt-6 ">
+                            <button onClick={(): void => { setErrorMessage(null); }} className="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>
             }
             
         </>

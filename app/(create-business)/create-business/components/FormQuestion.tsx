@@ -10,7 +10,7 @@ type FormQuestionProps = {
     error: string,
     next: () => void,
     back: () => void,
-    change: (id: string, value: any) => void
+    change: (id: string, value: any) => void,
     submit: () => void
 }
 

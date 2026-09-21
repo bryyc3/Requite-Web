@@ -35,6 +35,19 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
         return <div>Loading...</div>;
     }
 
+    function handleChange(field: string, value: string | number){
+        setTierCustomization(prev => {
+            if(!prev) return undefined;
+            
+            return {
+                ...prev,
+                tiers: prev.tiers.map((tier, i) =>
+                    i === index ? {...tier, [field]: value} : tier)
+            }}
+        );
+        console.log(tierCustomization)
+    }
+
     async function toggleTiers(activate: boolean, identifier: string): Promise<boolean>{
         try{
             if(!activate && !warningMessage){
@@ -58,7 +71,10 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
 
             const successMessage = await res.json();
 
-            setTierCustomization(successMessage.tierCustomization)
+            console.log(successMessage)
+
+            setTierCustomization(successMessage.tierInfo);
+            setIndex(0);
             
             return successMessage.success
         } catch (error){
@@ -83,7 +99,11 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 return false
             }
 
-            const successMessage = await res.json();
+            const successMessage: {success: boolean, tier: Tier} = await res.json();
+
+            tierCustomization && setTierCustomization({...tierCustomization, tiers: tierCustomization.tiers.map((tier, i) =>
+                i === index ? successMessage.tier: tier
+            )})
             
             return successMessage.success
         } catch (error){
@@ -138,23 +158,23 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 </div>
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>
+            <div>
+                <CustomizationContainer tierInfo={tierCustomization.tiers[index]} saveTier={updateTier} activation={tierCustomization.activated} handleInput={handleChange}/> 
+                <div className="flex gap-4 items-center justify-center pt-4">
+                    <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex} activated={tierCustomization.activated}/>
+                    <button 
+                        onClick={() =>{
+                            if(!tierCustomization.activated){return}
+                            setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, {name: "", points: 0}]}))
+                        }} 
+                        className={`${tierCustomization.activated && "cursor-pointer"} w-6 h-6 rounded-full ${tierCustomization.activated ? "bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" : "bg-gray-300"} text-white flex items-center justify-center shadow-lg transition-all`} >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                </div>
             
-                {tierCustomization.activated ? 
-                    <div>
-                        <CustomizationContainer tierInfo={tierCustomization.tiers[index]} saveTier={updateTier}/> 
-                        <div className="flex gap-4 items-center justify-center pt-4">
-                            <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex}/>
-                            <button onClick={() =>{setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, {name: "", points: 0}]}))}} className="cursor-pointer w-6 h-6 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white flex items-center justify-center shadow-lg transition-all" >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                            </button>
-                        </div>
-                    
-                    </div>:
-                    <h1 className="text-[clamp(1rem,2cqi,1.5rem)]">Activate Tier Progression to Get Started</h1>
-                }
-                
+            </div> 
         </div>
     )
 }

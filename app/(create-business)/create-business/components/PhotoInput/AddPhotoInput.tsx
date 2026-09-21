@@ -7,10 +7,10 @@ import createCroppedImage from "./CropImage";
 type AddPhotoInputProps = {
   inputValue: string,
   inputId: string,
-  onChange: (id: string, value: any) => void
+  handleChange: (id: string, value: any) => void
 };
 
-export default function AddPhotoInput({onChange, inputValue, inputId}: AddPhotoInputProps){
+export default function AddPhotoInput({handleChange, inputValue, inputId}: AddPhotoInputProps){
     const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [imageSrc, setImageSrc] = useState<string | null>(inputValue);
@@ -55,7 +55,7 @@ export default function AddPhotoInput({onChange, inputValue, inputId}: AddPhotoI
     );
 
     // Update parent formData
-    onChange(inputId, croppedFile);
+    handleChange(inputId, croppedFile);
 
     // Update the preview
     const previewUrl = URL.createObjectURL(croppedFile);

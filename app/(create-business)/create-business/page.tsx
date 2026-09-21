@@ -73,14 +73,15 @@ export default function CreateBusiness(){
             ...prev,
             [id]: value,     
         }));
-    }
+    };
     const submitForm = async () =>{
         if(formData.photo === null){
             setErrorMessage("Select a profile photo")
             return
         }
+
         try{
-            const res = await clientRequestHelper("create-business",{
+            const res = await clientRequestHelper("business/create-business",{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +109,8 @@ export default function CreateBusiness(){
                     <FormQuestion 
                         questionTitle = {questions[question].title} 
                         questionSubtitle = {questions[question].subtitle} 
-                        inputType = {questions[question].input} index ={question} 
+                        inputType = {questions[question].input} 
+                        index ={question} 
                         next={nextQuestion} 
                         back={handleBack} 
                         change={handleChange}
