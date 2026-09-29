@@ -9,8 +9,10 @@ import { clientRequestHelper } from "@/app/library/api/clientRequestHelper";
 export default function TierCustomization({tierProgressionActivated}: {tierProgressionActivated: boolean}){
     const [index, setIndex] = useState(0);
     const [tierCustomization, setTierCustomization] = useState<TierCustomizationInfo>();
+    const [initialTierInfo, setInitialTierInfo] = useState<Tier>();
     const [warningMessage, setWarningMessage] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string| null>();
+    
 
     useEffect(()=> {
         async function getTiers() {
@@ -21,20 +23,31 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 if(!res.ok){
                     setErrorMessage("there was an error getting tiers")
                 }
-    
+                console.log(data)
                 setTierCustomization(data);
+                setInitialTierInfo(data.tiers[index]);
             } catch (error){
                 console.log("Submit form error", error);
                 return false
             }
         }
         getTiers();
+        console.log(index)
+        
     }, []);
 
     if (!tierCustomization) {
         return <div>Loading...</div>;
     }
 
+    const hasChanges = (tierCustomization?.tiers[index].name !== initialTierInfo?.name && tierCustomization.tiers[index].name !== "") || 
+                       (tierCustomization?.tiers[index].points !== initialTierInfo?.points && tierCustomization.tiers[index].points !== undefined)|| 
+                       tierCustomization?.tiers[index].exclusiveRewards !== initialTierInfo?.exclusiveRewards
+
+    function changeInitialTierInfo(index: number){
+        setInitialTierInfo(tierCustomization?.tiers[index]);
+    }
+                       
     function handleChange(field: string, value: string | number){
         setTierCustomization(prev => {
             if(!prev) return undefined;
@@ -42,10 +55,9 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             return {
                 ...prev,
                 tiers: prev.tiers.map((tier, i) =>
-                    i === index ? {...tier, [field]: value} : tier)
+                    i === index ? {...tier, [field]: field === "points" ? value ==="" ? undefined : Number(value): value} : tier)
             }}
         );
-        console.log(tierCustomization)
     }
 
     async function toggleTiers(activate: boolean, identifier: string): Promise<boolean>{
@@ -81,16 +93,61 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             console.log("Submit form error", error);
             return false
         }
-    }
+    };
 
-    async function updateTier(newTierInfo: Tier){
+    async function createTier(tierData: Tier){
         try{
-            const res = await clientRequestHelper("business/update-tiers", {
+            const res = await clientRequestHelper("business/create-tier", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 }, body: JSON.stringify({
-                    
+                    tierInfo: tierData
+                }),
+            }); 
+            if(res.status !== 200){
+                const resMessage = await res.json()
+                setErrorMessage(resMessage.message)
+                return false
+            }
+            const successMessage: {success: boolean, tier: Tier} = await res.json();
+
+            tierCustomization && setTierCustomization({...tierCustomization, tiers: tierCustomization.tiers.map((tier, i) =>
+                i === index ? successMessage.tier: tier
+            )});
+
+            setInitialTierInfo(successMessage.tier);
+        } catch (error){
+            console.log("Submit form error", error);
+            return false
+        }
+    }
+
+    async function updateTier(){
+        const tier = tierCustomization?.tiers[index];
+
+        if(tier?.name === ""){
+            setErrorMessage("Tier Name cannot be empty")
+            return
+        }
+
+        if(tier?.points === undefined){
+            setErrorMessage("Points must have a value")
+            return
+        }
+
+        if(!tier?.id){
+            createTier(tier); 
+            return
+        };
+
+        try{
+            const res = await clientRequestHelper("business/update-tier", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                }, body: JSON.stringify({
+                    tierInfo: tier
                 }),
             }); 
             if(res.status !== 200){
@@ -104,7 +161,7 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             tierCustomization && setTierCustomization({...tierCustomization, tiers: tierCustomization.tiers.map((tier, i) =>
                 i === index ? successMessage.tier: tier
             )})
-            
+            setInitialTierInfo(successMessage.tier);
             return successMessage.success
         } catch (error){
             console.log("Submit form error", error);
@@ -159,9 +216,15 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 <p className="font-extralight text-[clamp(.3rem,1.5cqi,1rem)]">Create and customize tiers for customers to progress through and earn exclusive rewards</p>
             </div>
             <div>
-                <CustomizationContainer tierInfo={tierCustomization.tiers[index]} saveTier={updateTier} activation={tierCustomization.activated} handleInput={handleChange}/> 
+                <CustomizationContainer 
+                    tierInfo={tierCustomization.tiers[index]} 
+                    saveTier={updateTier} 
+                    activation={tierCustomization.activated} 
+                    handleInput={handleChange}
+                    enableSaveButton={hasChanges}
+                /> 
                 <div className="flex gap-4 items-center justify-center pt-4">
-                    <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex} activated={tierCustomization.activated}/>
+                    <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex} activated={tierCustomization.activated} changeInitialTier={changeInitialTierInfo}/>
                     <button 
                         onClick={() =>{
                             if(!tierCustomization.activated){return}

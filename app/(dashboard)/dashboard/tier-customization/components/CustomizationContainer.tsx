@@ -1,26 +1,28 @@
 import { Tier } from "@/app/types/types";
 import CustomizeOption from "./CustomizeOption";
+import { unstable_SuspenseList } from "react";
 
 type CustomizationContainerProps ={
     tierInfo: Tier,
-    saveTier: (newTierInfo: Tier) => void,
+    saveTier: () => void,
     activation: boolean,
-    handleInput: (field: string, value: string | number) => void
+    handleInput: (field: string, value: string | number) => void,
+    enableSaveButton: boolean
 }
 
-const customizeOptions = [{header: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names", inputId: "name"}, 
-                          {header: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Minimum amount of points users must cumulatively attain to reach tier", inputId: "points"},
-                          {header: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards", inputId: "name"}]
+const customizeOptions = [{header: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names", inputId: "name", inputType: "text"}, 
+                          {header: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Minimum amount of points users must cumulatively attain to reach tier", inputId: "points",  inputType: "number"},
+                          {header: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards", inputId: "name",  inputType: "text"}]
 
-export default function CustomizationContainer({tierInfo, saveTier, activation, handleInput} : CustomizationContainerProps){
+export default function CustomizationContainer({tierInfo, saveTier, activation, handleInput, enableSaveButton} : CustomizationContainerProps){
     return(
         <div className={`rounded-xl ${activation ? "bg-gradient-to-r from-orange-500 via-orange-500 to-orange-300" : "bg-gray-300"} p-[2px] shadow-[0_8px_8px_rgba(0,0,0,0.55)]`}>
             <div className="bg-white rounded-[10px] p-7 pt-5 pl-12 pr-12 pb-12 flex flex-col gap-8">
                 <div className="ml-auto flex items-center">
-                    <button className={`${activation ? "cursor-pointer text-white bg-gray-500 hover:bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" : "text-gray-500 bg-gray-300"} 
-                                        inline-flex items-center gap-2 px-2 py-1.5 rounded-xl
-                                        text-sm shadow-md 
-                                        transition-all duration-200 disabled:opacity-50`}>
+                    <button className={`${activation && enableSaveButton ? "cursor-pointer text-white bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" : "text-gray-500 bg-gray-300"}
+                                        inline-flex items-center gap-2 px-2 py-1.5 rounded-xl text-sm shadow-md transition-all duration-200 disabled:opacity-50`}
+                            onClick={(activation && enableSaveButton) ? saveTier : undefined}
+                    >
                         Save Changes
                     </button>
                     <button className={`p-2 rounded-lg ${activation ? "text-black hover:text-red-600" : "text-gray-300"} transition-all duration-200`}>

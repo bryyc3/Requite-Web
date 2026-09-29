@@ -20,6 +20,7 @@ export type TrackingSystems={
 }
 
 export type Tier = {
+    id?: string,
     name: string,
     points: number,
     exclusiveRewards?: Reward[]

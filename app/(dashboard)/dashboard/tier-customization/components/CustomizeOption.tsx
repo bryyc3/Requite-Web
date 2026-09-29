@@ -8,6 +8,7 @@ type CustomizeOptionProps = {
     hasInput: boolean;
     inputSize?: string;
     inputId: string;
+    inputType: string;
   };
   userInput: string | number;
   onChange?: (value: string) => void;
@@ -26,8 +27,8 @@ export default function CustomizeOption({option, userInput, onChange, activated,
               </div>
               {option.hasInput ? (
                 <input
-                  type="text"
-                  className={`${activated ? "bg-gray-300" : "bg-gray-100 text-gray-300"} rounded px-2 py-1`}
+                  type={option.inputType}
+                  className={`${activated ? "bg-gray-300 outline-1 outline-gray-400" : "bg-gray-100 text-gray-300"} rounded px-2 py-1 rounded text-center w-[50px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   style={{ width: option.inputSize }}
                   value={`${userInput}`}
                   onChange={(e) => change(option.inputId, e.target.value)}
