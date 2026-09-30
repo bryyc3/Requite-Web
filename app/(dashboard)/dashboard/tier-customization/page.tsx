@@ -45,6 +45,13 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                        tierCustomization?.tiers[index].exclusiveRewards !== initialTierInfo?.exclusiveRewards
 
     function changeInitialTierInfo(index: number){
+        if(!tierCustomization?.tiers[index].id){
+            setInitialTierInfo({
+                name: "",
+                points: 0
+            })
+            return
+        }
         setInitialTierInfo(tierCustomization?.tiers[index]);
     }
                        
@@ -167,6 +174,61 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             console.log("Submit form error", error);
             return false
         }
+    };
+
+    async function deleteTier(){
+        if(!tierCustomization?.tiers[index].id){
+            setErrorMessage("Cannot delete a tier that hasnt been saved");
+            return
+        }
+        try{
+            const res = await clientRequestHelper("business/delete-tier", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }, body: JSON.stringify({
+                    tierId: tierCustomization?.tiers[index].id
+                }),
+            }); 
+            if(res.status !== 200){
+                const resMessage = await res.json()
+                setErrorMessage(resMessage.message)
+            }
+
+            const successMessage: {success: boolean, tier: string} = await res.json();
+
+            tierCustomization && setTierCustomization((prevTiers) => {
+                if(!prevTiers) return;
+                if(!prevTiers.tiers) return prevTiers;
+
+                if(prevTiers.tiers.length === 1){
+                    return{
+                        ...prevTiers,
+                        tiers: [{
+                            name: "",
+                            points: 0,
+                        }]
+                    }
+                }
+
+                return{
+                    ...prevTiers, 
+                    tiers: prevTiers.tiers.filter((tier) => tier.id !== successMessage.tier)
+                }
+                
+            })
+            setIndex(index > 0 ? index-1 : 0);
+            if(tierCustomization?.tiers.length === 1){
+                setInitialTierInfo({
+                    name:"",
+                    points: 0
+                })
+            } else {
+                setInitialTierInfo(tierCustomization?.tiers[index > 0 ? index-1 : 0]);
+            }
+        } catch (error){
+            console.log("Submit form error", error);
+        }
     }
 
     return(
@@ -219,6 +281,7 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 <CustomizationContainer 
                     tierInfo={tierCustomization.tiers[index]} 
                     saveTier={updateTier} 
+                    removeTier={deleteTier}
                     activation={tierCustomization.activated} 
                     handleInput={handleChange}
                     enableSaveButton={hasChanges}
