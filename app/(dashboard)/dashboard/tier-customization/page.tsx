@@ -23,7 +23,7 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                 if(!res.ok){
                     setErrorMessage("there was an error getting tiers")
                 }
-                console.log(data)
+
                 setTierCustomization(data);
                 setInitialTierInfo(data.tiers[index]);
             } catch (error){
@@ -32,7 +32,6 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             }
         }
         getTiers();
-        console.log(index)
         
     }, []);
 
@@ -65,6 +64,20 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                     i === index ? {...tier, [field]: field === "points" ? value ==="" ? undefined : Number(value): value} : tier)
             }}
         );
+    }
+
+    function newTier(){
+        if(!tierCustomization) return
+
+        const tierNotSaved = tierCustomization.tiers.some(tier => tier.id === undefined);
+
+        
+        if(tierNotSaved){
+            setErrorMessage("You must save the new tier before creating another")
+            return
+        }
+
+        setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, {name: "", points: 0}]}))
     }
 
     async function toggleTiers(activate: boolean, identifier: string): Promise<boolean>{
@@ -119,10 +132,18 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
             }
             const successMessage: {success: boolean, tier: Tier} = await res.json();
 
-            tierCustomization && setTierCustomization({...tierCustomization, tiers: tierCustomization.tiers.map((tier, i) =>
-                i === index ? successMessage.tier: tier
-            )});
 
+
+            setTierCustomization((prevTier) =>{
+                if(!prevTier) return 
+
+                const updatedTiers =  prevTier.tiers.map((tier, i) => i === index ? successMessage.tier: tier)
+
+                return {
+                    ...prevTier,
+                    tiers: updatedTiers.sort((a, b) => a.points - b.points)
+                }
+            })
             setInitialTierInfo(successMessage.tier);
         } catch (error){
             console.log("Submit form error", error);
@@ -165,9 +186,23 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
 
             const successMessage: {success: boolean, tier: Tier} = await res.json();
 
-            tierCustomization && setTierCustomization({...tierCustomization, tiers: tierCustomization.tiers.map((tier, i) =>
-                i === index ? successMessage.tier: tier
-            )})
+            setTierCustomization((prevTier) =>{
+                if(!prevTier) return 
+
+                const updatedTiers = prevTier.tiers.map((tier, i) => i === index ? successMessage.tier: tier)
+
+                return {
+                    ...prevTier,
+                    tiers: updatedTiers.sort((a, b) =>{
+                    if (!a.id && !b.id) return 0;
+                    if (!a.id) return 1;
+                    if (!b.id) return -1;
+                
+                    return a.points - b.points;
+                })
+                }
+            })
+            
             setInitialTierInfo(successMessage.tier);
             return successMessage.success
         } catch (error){
@@ -287,12 +322,14 @@ export default function TierCustomization({tierProgressionActivated}: {tierProgr
                     enableSaveButton={hasChanges}
                 /> 
                 <div className="flex gap-4 items-center justify-center pt-4">
-                    <TiersNav tiers={tierCustomization.tiers.length} index={index} setIndex={setIndex} activated={tierCustomization.activated} changeInitialTier={changeInitialTierInfo}/>
+                    <TiersNav 
+                        tiers={tierCustomization.tiers.length} 
+                        index={index} 
+                        setIndex={setIndex} 
+                        activated={tierCustomization.activated} 
+                        changeInitialTier={changeInitialTierInfo}/>
                     <button 
-                        onClick={() =>{
-                            if(!tierCustomization.activated){return}
-                            setTierCustomization(prev =>({...tierCustomization, tiers: [...prev!.tiers, {name: "", points: 0}]}))
-                        }} 
+                        onClick={tierCustomization.activated ? newTier : undefined} 
                         className={`${tierCustomization.activated && "cursor-pointer"} w-6 h-6 rounded-full ${tierCustomization.activated ? "bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400" : "bg-gray-300"} text-white flex items-center justify-center shadow-lg transition-all`} >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

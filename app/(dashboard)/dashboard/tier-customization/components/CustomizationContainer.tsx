@@ -13,7 +13,7 @@ type CustomizationContainerProps ={
 
 const customizeOptions = [{header: "Tier Name", hasInput: true, inputSize: "100px", popupInfo:"Make each tier of your reward program distinct with custom tier names", inputId: "name", inputType: "text"}, 
                           {header: "Points Required",  hasInput: true, inputSize: "50px", popupInfo:"Minimum amount of points users must cumulatively attain to reach tier", inputId: "points",  inputType: "number"},
-                          {header: "Exclusive Rewards",  hasInput: false, popupInfo:"Only allow users within this tier to redeem specific rewards", inputId: "name",  inputType: "text"}]
+                          {header: "Exclusive Rewards",  hasInput: false, popupInfo:"Select rewards that will be only redeemable in this tier", inputId: "name",  inputType: "text"}]
 
 export default function CustomizationContainer({tierInfo, saveTier, removeTier, activation, handleInput, enableSaveButton} : CustomizationContainerProps){
     return(

@@ -15,6 +15,11 @@ type RewardModalProps = {
 
 export default function RewardModal({reward, onFormClose, onFormChange, mode, rewardCreation, rewardUpdate, rewardDelete}: RewardModalProps){
     const [warningMessage, setWarningMessage] = useState(false);
+    const [initialRewardInfo, setInitialRewardInfo] = useState<Reward>(reward);
+
+    const enableSave = initialRewardInfo.name !== reward.name || initialRewardInfo.cost !== reward.cost || initialRewardInfo.description !== reward.description;
+
+    console.log(enableSave)
 
     function confirmDelete(){
         setWarningMessage(true)
@@ -98,11 +103,13 @@ export default function RewardModal({reward, onFormClose, onFormChange, mode, re
                 {
                     mode === "create" ?
                     <div className="pt-8 flex justify-center">
-                        <button onClick={rewardCreation} className="p-1 w-40 cursor-pointer rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white">Save</button>
+                        <button onClick={enableSave ? rewardCreation : undefined} 
+                                className={`${enableSave ? "cursor-pointer rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white" : "bg-gray-100 text-gray-300"}rounded p-1 w-40 p-1 w-40`}>Save</button>
                     </div>:
                     <div className="pt-8 flex justify-between">
                         <button onClick={confirmDelete} className="p-1 cursor-pointer rounded text-red-400 outline-1 outline-red-400">Delete Item</button>
-                        <button onClick={rewardUpdate} className="p-1 cursor-pointer rounded bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white">Save Changes</button>
+                        <button onClick={enableSave ? rewardUpdate : undefined} 
+                                className={`${enableSave ? "cursor-pointer bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 text-white" : "bg-gray-100 text-gray-300"} rounded p-1 w-40 p-1 w-40`}>Save Changes</button>
                     </div>
 
                 }

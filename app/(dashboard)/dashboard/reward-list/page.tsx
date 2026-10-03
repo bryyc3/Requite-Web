@@ -217,7 +217,6 @@ export default function RewardList(){
                     rewardCreation={createReward} 
                     rewardUpdate={updateReward}
                     rewardDelete={deleteReward}/>
-
             }
             {
                 errorMessage &&
